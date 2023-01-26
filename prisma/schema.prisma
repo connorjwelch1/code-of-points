@@ -37,11 +37,27 @@ model Note {
   userId String
 }
 
-model Post {
-  slug     String @id
-  title    String
-  markdown String
+model Event {
+  id  String @id @default(cuid())
+  name  String @unique
+  elementGroups ElementGroup[]
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model ElementGroup {
+  id  String @id @default(cuid())
+  groupNumber Int
+  description String
+  
+  event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  eventId String
+  skills  Skill[]
+}
+
+model Skill {
+  id  String @id @default(cuid())
+  name  String
+  description String 
+  value String @default("A")
+  elementGroup  ElementGroup @relation(fields: [elementGroupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  elementGroupId  String
 }

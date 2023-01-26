@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Skill } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -24,66 +24,50 @@ async function seed() {
         },
     });
 
-    await prisma.note.create({
+    await prisma.event
+        .delete({ where: { name: "Floor Exercise" } })
+        .catch(() => {});
+
+    const event = await prisma.event.create({
         data: {
-            title: "My first note",
-            body: "Hello, world!",
-            userId: user.id,
+            name: "Floor Exercise",
         },
     });
 
-    await prisma.note.create({
+    const elementGroup1 = await prisma.elementGroup.create({
         data: {
-            title: "My second note",
-            body: "Hello, world!",
-            userId: user.id,
+            groupNumber: 1,
+            description: "Non-Acro",
+            eventId: event.id,
         },
     });
 
-    const posts = [
+    const skills = [
         {
-            slug: "my-first-post",
-            title: "My First Post",
-            markdown: `
-      # This is my first post
-      
-      Isn't it great?
-          `.trim(),
+            name: "Wide arm press handstand",
+            description: "Press to wide arm handstand with 2s hold",
+            value: "C",
         },
         {
-            slug: "90s-mixtape",
-            title: "A Mixtape I Made Just For You",
-            markdown: `
-      # 90s Mixtape
-      
-      - I wish (Skee-Lo)
-      - This Is How We Do It (Montell Jordan)
-      - Everlong (Foo Fighters)
-      - Ms. Jackson (Outkast)
-      - Interstate Love Song (Stone Temple Pilots)
-      - Killing Me Softly With His Song (Fugees, Ms. Lauryn Hill)
-      - Just a Friend (Biz Markie)
-      - The Man Who Sold The World (Nirvana)
-      - Semi-Charmed Life (Third Eye Blind)
-      - ...Baby One More Time (Britney Spears)
-      - Better Man (Pearl Jam)
-      - It's All Coming Back to Me Now (Céline Dion)
-      - This Kiss (Faith Hill)
-      - Fly Away (Lenny Kravits)
-      - Scar Tissue (Red Hot Chili Peppers)
-      - Santa Monica (Everclear)
-      - C'mon N' Ride it (Quad City DJ's)
-          `.trim(),
+            name: "Fedorchenco",
+            description: "Russian with 1080 degrees or greater turn",
+            value: "C",
+        },
+        {
+            name: "Press handstand",
+            description: "Press to handstand with 2s hold",
+            value: "A",
         },
     ];
 
-    for (const post of posts) {
-        await prisma.post.upsert({
-            where: { slug: post.slug },
-            update: post,
-            create: post,
+    skills.forEach(async (skill) => {
+        await prisma.skill.create({
+            data: {
+                ...skill,
+                elementGroupId: elementGroup1.id,
+            },
         });
-    }
+    });
 
     console.log(`Database has been seeded. 🌱`);
 }
