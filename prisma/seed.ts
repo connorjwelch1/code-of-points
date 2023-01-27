@@ -1,72 +1,29 @@
-import { PrismaClient, Skill } from "@prisma/client";
-import bcrypt from "bcryptjs";
+import { PrismaClient } from "@prisma/client";
+import { events } from "./events";
 
 const prisma = new PrismaClient();
 
 async function seed() {
-    const email = "rachel@remix.run";
+    await prisma.event.deleteMany({}).catch(() => {});
 
-    // cleanup the existing database
-    await prisma.user.delete({ where: { email } }).catch(() => {
-        // no worries if it doesn't exist yet
-    });
-
-    const hashedPassword = await bcrypt.hash("racheliscool", 10);
-
-    const user = await prisma.user.create({
-        data: {
-            email,
-            password: {
-                create: {
-                    hash: hashedPassword,
-                },
-            },
-        },
-    });
-
-    await prisma.event
-        .delete({ where: { name: "Floor Exercise" } })
-        .catch(() => {});
-
-    const event = await prisma.event.create({
-        data: {
-            name: "Floor Exercise",
-        },
-    });
-
-    const elementGroup1 = await prisma.elementGroup.create({
-        data: {
-            groupNumber: 1,
-            description: "Non-Acro",
-            eventId: event.id,
-        },
-    });
-
-    const skills = [
-        {
-            name: "Wide arm press handstand",
-            description: "Press to wide arm handstand with 2s hold",
-            value: "C",
-        },
-        {
-            name: "Fedorchenco",
-            description: "Russian with 1080 degrees or greater turn",
-            value: "C",
-        },
-        {
-            name: "Press handstand",
-            description: "Press to handstand with 2s hold",
-            value: "A",
-        },
-    ];
-
-    skills.forEach(async (skill) => {
-        await prisma.skill.create({
+    events.forEach(async (event) => {
+        await prisma.event.create({
             data: {
-                ...skill,
-                elementGroupId: elementGroup1.id,
+                key: event.key,
+                fullName: event.fullName,
             },
         });
+        await Promise.all(
+            event.groups.map((group, index) =>
+                prisma.elementGroup.create({
+                    data: {
+                        groupNumber: index + 1,
+                        description: group,
+                        eventKey: event.key,
+                    },
+                })
+            )
+        );
     });
 
     console.log(`Database has been seeded. 🌱`);

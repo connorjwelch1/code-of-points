@@ -7,57 +7,30 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id    String @id @default(cuid())
-  email String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
-}
-
-model Password {
-  hash String
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String @unique
-}
-
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-}
-
 model Event {
-  id  String @id @default(cuid())
-  name  String @unique
+  key  String @unique @id
+  fullName String
   elementGroups ElementGroup[]
+  skills  Skill[]
 }
 
 model ElementGroup {
-  id  String @id @default(cuid())
   groupNumber Int
   description String
   
-  event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  eventId String
+  event   Event @relation(fields: [eventKey], references: [key], onDelete: Cascade, onUpdate: Cascade)
+  eventKey String
   skills  Skill[]
+  @@id([eventKey, groupNumber])
 }
 
 model Skill {
   id  String @id @default(cuid())
   name  String
   description String 
-  value String @default("A")
-  elementGroup  ElementGroup @relation(fields: [elementGroupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  elementGroupId  String
+  value String
+  elementGroup  ElementGroup @relation(fields: [groupNumber, eventKey], references: [groupNumber, eventKey], onDelete: Cascade, onUpdate: Cascade)
+  event Event @relation(fields: [eventKey], references: [key])
+  groupNumber  Int
+  eventKey String
 }

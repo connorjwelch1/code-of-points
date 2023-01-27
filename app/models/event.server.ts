@@ -5,9 +5,16 @@ export const getAllEvents = () => {
     return prisma.event.findMany();
 };
 
-export const getEvent = (id: Event["id"]) => {
+export const getEvent = (key: Event["key"]) => {
     return prisma.event.findFirstOrThrow({
-        where: { id },
-        select: { elementGroups: true, name: true, id: true },
+        where: { key },
+        select: { elementGroups: true, fullName: true, key: true },
+    });
+};
+
+export const getEventSkills = (key: Event["key"]) => {
+    return prisma.event.findFirstOrThrow({
+        where: { key },
+        select: { skills: true },
     });
 };
