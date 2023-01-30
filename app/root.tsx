@@ -34,18 +34,16 @@ export async function loader() {
 export default function App() {
     const { events } = useLoaderData<typeof loader>();
     return (
-        <html lang="en" className="h-full">
+        <html lang="en" data-theme="emerald" className="h-full">
             <head>
                 <Meta />
                 <Links />
             </head>
             <body className="h-full">
-                <div className="flex flex-row h-full">
-                    <NavBar events={events} />
-                    <main className="flex justify-center w-full">
-                        <Outlet />
-                    </main>
-                </div>
+                <NavBar events={events} />
+                <main>
+                    <Outlet />
+                </main>
                 <ScrollRestoration />
                 <Scripts />
                 <LiveReload />
