@@ -8,7 +8,7 @@ interface NavBarProps {
 }
 const NavBar = ({ events }: NavBarProps) => {
     return (
-        <div className="navbar bg-primary text-primary-content">
+        <div className="navbar bg-neutral text-neutral-content">
             <div className="flex-none">
                 <button className="btn btn-square btn-ghost">
                     <HamburgerIcon />
@@ -20,16 +20,16 @@ const NavBar = ({ events }: NavBarProps) => {
                 </Link>
             </div>
             <div className="flex-none">
-                <ul className="menu menu-horizontal px-1">
+                <ul className="menu menu-horizontal px-1 font-semibold">
                     <li>
                         <span>
                             Events
                             <ChevronDownIcon />
                         </span>
-                        <ul className="p-2 bg-base-100">
+                        <ul className="p-2 bg-base-300 text-base-content">
                             {events.map((event) => (
                                 <li key={event.key}>
-                                    <NavLink to={`/events/${event.key}`}>
+                                    <NavLink to={`/events/${event.key}/skills`}>
                                         {event.fullName}
                                     </NavLink>
                                 </li>

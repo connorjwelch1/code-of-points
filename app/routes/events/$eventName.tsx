@@ -18,7 +18,7 @@ const Event = () => {
     return (
         <div className="text-center">
             <h1 className="font-bold text-xl">{event.fullName}</h1>
-            <div className="font-semibold text-md">Element Groups</div>
+            {/* <div className="font-semibold text-md">Element Groups</div>
             <ul>
                 {event.elementGroups.map((elementGroup) => (
                     <li key={elementGroup.groupNumber}>
@@ -28,7 +28,7 @@ const Event = () => {
                         </div>
                     </li>
                 ))}
-            </ul>
+            </ul> */}
             <Outlet />
         </div>
     );

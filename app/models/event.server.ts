@@ -18,3 +18,17 @@ export const getEventSkills = (key: Event["key"]) => {
         select: { skills: true },
     });
 };
+
+export const searchEventSkills = (
+    eventKey: Event["key"],
+    searchTerm: string | null
+) => {
+    return prisma.skill.findMany({
+        where: {
+            eventKey,
+            description: {
+                contains: searchTerm || undefined,
+            },
+        },
+    });
+};

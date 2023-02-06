@@ -33,4 +33,5 @@ model Skill {
   event Event @relation(fields: [eventKey], references: [key])
   groupNumber  Int
   eventKey String
+  imagePath String?
 }

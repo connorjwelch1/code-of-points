@@ -34,7 +34,7 @@ export async function loader() {
 export default function App() {
     const { events } = useLoaderData<typeof loader>();
     return (
-        <html lang="en" data-theme="emerald" className="h-full">
+        <html lang="en" data-theme="winter" className="h-full">
             <head>
                 <Meta />
                 <Links />
