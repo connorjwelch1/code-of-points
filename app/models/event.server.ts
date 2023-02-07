@@ -21,13 +21,17 @@ export const getEventSkills = (key: Event["key"]) => {
 
 export const searchEventSkills = (
     eventKey: Event["key"],
-    searchTerm: string | null
+    searchTerm: string | null,
+    minValue: string | null
 ) => {
     return prisma.skill.findMany({
         where: {
             eventKey,
             description: {
                 contains: searchTerm || undefined,
+            },
+            value: {
+                gte: minValue || undefined,
             },
         },
     });

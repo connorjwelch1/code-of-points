@@ -18,17 +18,6 @@ const Event = () => {
     return (
         <div className="text-center">
             <h1 className="font-bold text-xl">{event.fullName}</h1>
-            {/* <div className="font-semibold text-md">Element Groups</div>
-            <ul>
-                {event.elementGroups.map((elementGroup) => (
-                    <li key={elementGroup.groupNumber}>
-                        <div>
-                            Group {elementGroup.groupNumber}:{" "}
-                            {elementGroup.description}
-                        </div>
-                    </li>
-                ))}
-            </ul> */}
             <Outlet />
         </div>
     );

@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 
 async function seed() {
     await prisma.event.deleteMany({}).catch(() => {});
+    await prisma.elementGroup.deleteMany({}).catch(() => {});
     await prisma.skill.deleteMany({}).catch(() => {});
 
     await Promise.all(
