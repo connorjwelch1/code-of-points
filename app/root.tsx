@@ -1,10 +1,9 @@
-import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
     Links,
     LiveReload,
     Meta,
-    NavLink,
     Outlet,
     Scripts,
     ScrollRestoration,
@@ -34,7 +33,7 @@ export async function loader() {
 export default function App() {
     const { events } = useLoaderData<typeof loader>();
     return (
-        <html lang="en" data-theme="winter" className="h-full">
+        <html lang="en" data-theme="business" className="h-full">
             <head>
                 <Meta />
                 <Links />

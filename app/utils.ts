@@ -1,5 +1,4 @@
 import { useMatches, useSearchParams } from "@remix-run/react";
-import { access } from "fs";
 import { useMemo } from "react";
 
 const DEFAULT_REDIRECT = "/";
@@ -44,7 +43,7 @@ export function useMatchesData(
 }
 
 export const useSearchParamValues = <TKey extends string>(
-    keys: TKey[]
+    keys: readonly TKey[]
 ): Record<TKey, string | undefined> => {
     const [params] = useSearchParams();
 

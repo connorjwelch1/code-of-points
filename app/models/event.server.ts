@@ -22,7 +22,8 @@ export const getEventSkills = (key: Event["key"]) => {
 export const searchEventSkills = (
     eventKey: Event["key"],
     searchTerm: string | null,
-    minValue: string | null
+    minValue: string | null,
+    elementGroupNumber: number | null
 ) => {
     return prisma.skill.findMany({
         where: {
@@ -32,6 +33,9 @@ export const searchEventSkills = (
             },
             value: {
                 gte: minValue || undefined,
+            },
+            elementGroup: {
+                groupNumber: elementGroupNumber || undefined,
             },
         },
     });

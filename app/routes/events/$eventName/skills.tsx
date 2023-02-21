@@ -10,10 +10,14 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     invariant(typeof eventName === "string", "eventName must be a string");
     const url = new URL(request.url);
     const search = new URLSearchParams(url.search);
+    const elementGroup = search.get("elementGroup");
+    const groupNumber = elementGroup ? parseInt(elementGroup) : null;
+
     const skills = await searchEventSkills(
         eventName,
         search.get("searchTerm"),
-        search.get("minValue")?.toLowerCase() || null
+        search.get("minValue")?.toLowerCase() || null,
+        groupNumber
     );
     return json({
         skills,
@@ -31,7 +35,7 @@ const Skills = () => {
                     <Link
                         key={skill.id}
                         to={`../${skill.id}`}
-                        className="border-8 focus:border-primary-focus"
+                        className="border-8 rounded-md hover:border-primary-content transition-colors"
                     >
                         <div className="font-semibold text-md">
                             {skill.value.toUpperCase()}
